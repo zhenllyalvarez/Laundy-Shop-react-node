@@ -7,7 +7,6 @@ const connection =  mysql.createConnection({
     database: 'laundry_shop',
 });
 
-
 connection.connect((err) => {
     if(err) {
         console.error("Error connecting database", err.stack);
