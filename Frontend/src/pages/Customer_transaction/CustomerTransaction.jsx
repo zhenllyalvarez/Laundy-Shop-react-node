@@ -1,29 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import ModalCT from '../../components/CustomTranModal/ModalCT';
 import Pagination from '../../components/Pagination/PaginationBtn';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const CustomerTransaction = () => {
   const [transaction, setTransaction] = useState([]);
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = {month: 'long', day: 'numeric', year: 'numeric'};
+    return date.toLocaleDateString('en-US', options);
+  }
+
   useEffect(() => {
     axios.get('http://localhost:8080/api/transaction/list')
     .then(res => {
-      setTransaction(res.data)
-      console.log(res);
+      setTransaction(res.data);
     })
     .catch(err => console.log(err));
   }, []);
+  
 
   return (
     <>
       <div className="p-4 sm:ml-64">
         <div>
-          <h1 className='text-gray-500 text-4xl font-bold'>Customer Transaction</h1>
-          
-          <div className="relative mt-14 overflow-x-auto shadow-md sm:rounded-lg">
-              <ModalCT/>
-              <table className="w-full text-sm text-left rtl:text-right text-gray-500 mt-8">
+          <h1 className='text-gray-500 text-4xl font-bold mb-24'>Customer Transaction</h1>
+          <Link to='/AddCustomerTransaction' className='bg-blue-500 hover:bg-blue-600 px-4 py-4 w-28 text-sm font-semibold rounded text-white'>Add Transaction</Link>
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-8">
+              <table className="w-full text-sm text-left rtl:text-right text-gray-500">
                   <thead className="text-xs text-gray-700 uppercase bg-gray-100">
                       <tr>
                           <th scope="col" className="px-6 py-3">
@@ -73,10 +78,10 @@ const CustomerTransaction = () => {
                                 {data.price}
                             </td>
                             <td className="px-6 py-4">
-                                {data.transaction_date}
+                                {formatDate(data.transaction_date)}
                             </td>
                             <td className="px-6 py-4">
-                                {data.date_received}
+                                {formatDate(data.date_received)}
                             </td>
                             <td className="px-6 py-4">
                                 <p className='text-orange-500'>On-going</p>
