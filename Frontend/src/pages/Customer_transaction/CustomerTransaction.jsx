@@ -53,7 +53,7 @@ const CustomerTransaction = () => {
                               Receive Date
                           </th>
                           <th scope="col" className="px-6 py-3">
-                            Status
+                            Option
                           </th>
                       </tr>
                   </thead>
@@ -83,8 +83,9 @@ const CustomerTransaction = () => {
                             <td className="px-6 py-4">
                                 {formatDate(data.date_received)}
                             </td>
-                            <td className="px-6 py-4">
-                                <p className='text-orange-500'>On-going</p>
+                            <td className="flex gap-2 px-6 py-4">
+                                <button className='bg-green-500 hover:bg-green-600 text-white py-2 px-2.5 rounded'>Complete</button>
+                                <button className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded'>Update</button>
                             </td>
                           </tr>
                         );
