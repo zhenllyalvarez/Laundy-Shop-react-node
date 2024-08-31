@@ -1,8 +1,13 @@
 import React from 'react'
+import SideNavbar from './components/SideNavbar'
+import Layout from './components/Layout'
 
 const App = () => {
   return (
-    <div>App</div>
+    <>
+      <SideNavbar/>
+      <Layout/>
+    </>
   )
 }
 
