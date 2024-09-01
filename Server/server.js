@@ -1,7 +1,6 @@
 const express = require("express");
 const path = require('path');
 const cors = require('cors');
-const connection = require("./src/Config/DatabaseConfig");
 const transactionDetails = require('./src/Routes/ClientRoute');
 
 const app = express();
@@ -23,7 +22,6 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT || 8080;
 app.listen(8080, () => {
     console.log(`Listening on port ${PORT}...`);
-    connection;
 });
 
 module.exports = app;
