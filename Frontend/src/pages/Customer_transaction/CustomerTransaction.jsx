@@ -25,9 +25,13 @@ const CustomerTransaction = () => {
     <>
       <div className="p-4 sm:ml-64">
         <div>
-          <h1 className='text-gray-500 text-4xl font-bold mb-24'>Customer Transaction</h1>
-          <Link to='/AddCustomerTransaction' className='bg-blue-500 hover:bg-blue-600 px-4 py-4 w-28 text-sm font-semibold rounded text-white'>Add Transaction</Link>
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-8">
+          <h1 className='text-gray-500 text-4xl font-bold'>Customer Transaction</h1>
+          <p className='mb-14  text-gray-500 font-light'>You can add a new transaction here, and once it's submitted, you'll be able to see it displayed in the table below, where all transactions are listed.</p>
+          <div className='flex justify-between'>
+          <Link to='/AddCustomerTransaction' className='bg-blue-500 hover:bg-blue-600 px-5 py-4 w-30 text-sm font-semibold rounded text-white'>Add Transaction</Link>
+          <input className='w-60 outline-0 bg-gray-100 px-4 h-12 text-gray-500 rounded shadow' type="search" name="search" id="" placeholder='Search here...'/>
+          </div>
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
               <table className="w-full text-sm text-left rtl:text-right text-gray-500">
                   <thead className="text-xs text-gray-700 uppercase bg-gray-100">
                       <tr>
@@ -85,7 +89,7 @@ const CustomerTransaction = () => {
                             </td>
                             <td className="flex gap-2 px-6 py-4">
                                 <button className='bg-green-500 hover:bg-green-600 text-white py-2 px-2.5 rounded'>Complete</button>
-                                <button className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded'>Update</button>
+                                <button className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-5 rounded'>Update</button>
                             </td>
                           </tr>
                         );
