@@ -28,7 +28,7 @@ const CustomerTransaction = () => {
           <h1 className='text-gray-500 text-4xl font-bold'>Customer Transaction</h1>
           <p className='mb-14  text-gray-500 font-light'>You can add a new transaction here, and once it's submitted, you'll be able to see it displayed in the table below, where all transactions are listed.</p>
           <div className='flex justify-between'>
-          <Link to='/AddCustomerTransaction' className='bg-blue-500 hover:bg-blue-600 px-5 py-4 w-30 text-sm font-semibold rounded text-white'>Add Transaction</Link>
+          <Link to='/AddCustomerTransaction' className='bg-blue-500 hover:bg-blue-600 px-5 py-4 w-30 text-sm font-semibold rounded text-white shadow'>Add Transaction</Link>
           <input className='w-60 outline-0 bg-gray-100 px-4 h-12 text-gray-500 rounded shadow' type="search" name="search" id="" placeholder='Search here...'/>
           </div>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">

@@ -1,6 +1,25 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 
 const Dashboard = () => {
+  const [count, setCount] = useState(0);
+
+  
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/transaction/list')
+    .then(res => {
+      setCount(res.data.count);
+      console.log(count);
+    })
+    .catch(err => console.log(err));
+  }, []);
+
+
+  // function showCount() {
+  //   console.log(count);
+  //   return count;
+  // }
+  
   return (
     <>
       <div className="p-4 sm:ml-64">
@@ -8,7 +27,7 @@ const Dashboard = () => {
           <h1 className="text-gray-500 text-4xl font-bold">Dashboard</h1>
           <div className="card flex gap-4 mt-4">
             <span
-              className="block flex max-w-sm w-1/2 h-32 p-4 items-center bg-white border border-gray-200 rounded-lg shadow bg-blue-200"
+              className="block flex max-w-sm w-1/2 h-32 p-4 items-center bg-white border border-gray-200 rounded-lg shadow-lg bg-blue-300"
             >
               <h5 className="flex items-center mb-2 text-2xl font-bold tracking-tight text-gray-900">
               <svg className="w-14 h-12 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -17,14 +36,14 @@ const Dashboard = () => {
               <div className='text-3xl'>
               Transaction
                 <p className="font-normal text-lg text-gray-700">
-                500
+                
               </p>
               </div>
               </h5>
             </span>
 
             <span
-              className="block flex max-w-sm w-1/2 h-32 p-4 items-center bg-white border border-gray-200 rounded-lg shadow bg-green-200"
+              className="block flex max-w-sm w-1/2 h-32 p-4 items-center bg-white border border-gray-200 rounded-lg shadow-lg bg-green-300"
             >
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center">
               <svg className="w-14 h-14 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -40,7 +59,7 @@ const Dashboard = () => {
               </h5>
             </span>
             <span
-              className="block flex max-w-sm w-1/2 h-32 p-4 items-center bg-white border border-gray-200 rounded-lg shadow bg-pink-200"
+              className="block flex max-w-sm w-1/2 h-32 p-4 items-center bg-white border border-gray-200 rounded-lg shadow-lg bg-pink-300"
             >
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center">
               <svg className="w-14 h-14 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">

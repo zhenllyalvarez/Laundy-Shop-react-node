@@ -12,7 +12,6 @@ connection.connect((err) => {
         console.error("Error connecting database", err.stack);
         return;
     } console.log("Successfully connected to mysql database", connection.threadId);
-
     if(connection.state === 'connected') {
         console.log("Mysql database is active.");
     } else{
