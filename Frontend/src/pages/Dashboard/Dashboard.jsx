@@ -2,23 +2,16 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
 const Dashboard = () => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState('');
 
   
   useEffect(() => {
     axios.get('http://localhost:8080/api/transaction/list')
     .then(res => {
-      setCount(res.data.count);
-      console.log(count);
+      setCount(res.data.length);
     })
     .catch(err => console.log(err));
   }, []);
-
-
-  // function showCount() {
-  //   console.log(count);
-  //   return count;
-  // }
   
   return (
     <>
@@ -34,9 +27,9 @@ const Dashboard = () => {
                 <path fillRule="evenodd" d="M4 4a1 1 0 0 1 1-1h1.5a1 1 0 0 1 .979.796L7.939 6H19a1 1 0 0 1 .979 1.204l-1.25 6a1 1 0 0 1-.979.796H9.605l.208 1H17a3 3 0 1 1-2.83 2h-2.34a3 3 0 1 1-4.009-1.76L5.686 5H5a1 1 0 0 1-1-1Z" clipRule="evenodd"/>
               </svg>
               <div className='text-3xl'>
-              Transaction
+              All Transaction
                 <p className="font-normal text-lg text-gray-700">
-                
+                {count}
               </p>
               </div>
               </h5>

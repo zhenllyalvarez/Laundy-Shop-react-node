@@ -85,7 +85,7 @@ const TransactionList = () => {
                                 {formatDate(data.date_received)}
                             </td>
                             <td className="flex gap-2 px-6 py-4">
-                              <p className='text-orange-500'>On-going</p>
+                              <p className='text-green-500'>Completed</p>
                             </td>
                           </tr>
                         );

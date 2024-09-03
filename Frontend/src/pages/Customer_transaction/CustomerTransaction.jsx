@@ -13,12 +13,22 @@ const CustomerTransaction = () => {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/transaction/list')
+    axios.get('http://localhost:8080/api/customer/transaction/list?status=0')
     .then(res => {
       setTransaction(res.data);
     })
     .catch(err => console.log(err));
   }, []);
+
+  
+  const hanldeBtn = (id) => {
+      axios.put(`http://localhost:8080/api/transaction/update/${id}`, {status: 1})
+      .then(res => {
+        setTransaction(transaction.filter(item => item.id !== id));
+        console.log(res.data);
+      })
+      .catch(err => console.log(err));
+    };
   
 
   return (
@@ -88,7 +98,7 @@ const CustomerTransaction = () => {
                                 {formatDate(data.date_received)}
                             </td>
                             <td className="flex gap-2 px-6 py-4">
-                                <button className='bg-green-500 hover:bg-green-600 text-white py-2 px-2.5 rounded'>Complete</button>
+                                <button onClick={() => hanldeBtn(data.id)} className='bg-green-500 hover:bg-green-600 text-white py-2 px-2.5 rounded'>Complete</button>
                                 <button className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-5 rounded'>Update</button>
                             </td>
                           </tr>
