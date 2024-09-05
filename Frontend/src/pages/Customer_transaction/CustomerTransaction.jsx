@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Pagination from '../../components/Pagination/PaginationBtn';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -99,7 +98,7 @@ const CustomerTransaction = () => {
                             </td>
                             <td className="flex gap-2 px-6 py-4">
                                 <button onClick={() => hanldeBtn(data.id)} className='bg-green-500 hover:bg-green-600 text-white py-2 px-2.5 rounded'>Complete</button>
-                                <button className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-5 rounded'>Update</button>
+                                <Link to='/UpdateCustomerTransaction' className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-5 rounded'>Update</Link>
                             </td>
                           </tr>
                         );
@@ -107,7 +106,7 @@ const CustomerTransaction = () => {
                     }
                   </tbody>
               </table>
-              <Pagination/>
+              {/* <Pagination/> */}
           </div>
         </div>
       </div>

@@ -2,17 +2,35 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
 const Dashboard = () => {
-  const [count, setCount] = useState('');
+  const [allCount, setAllCount] = useState('');
+  const [onGoing, setOnGoing] = useState('');
+  const [completed, setCompleted] = useState();
 
   
   useEffect(() => {
     axios.get('http://localhost:8080/api/transaction/list')
     .then(res => {
-      setCount(res.data.length);
+      setAllCount(res.data.length);
     })
     .catch(err => console.log(err));
   }, []);
   
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/customer/transaction/list')
+    .then(res => {
+      setOnGoing(res.data.length);
+    })
+    .catch(err => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/completed/transaction/list')
+    .then(res => {
+      setCompleted(res.data.length);
+    })
+    .catch(err => console.log(err));
+  }, []);
+
   return (
     <>
       <div className="p-4 sm:ml-64">
@@ -26,10 +44,10 @@ const Dashboard = () => {
               <svg className="w-14 h-12 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                 <path fillRule="evenodd" d="M4 4a1 1 0 0 1 1-1h1.5a1 1 0 0 1 .979.796L7.939 6H19a1 1 0 0 1 .979 1.204l-1.25 6a1 1 0 0 1-.979.796H9.605l.208 1H17a3 3 0 1 1-2.83 2h-2.34a3 3 0 1 1-4.009-1.76L5.686 5H5a1 1 0 0 1-1-1Z" clipRule="evenodd"/>
               </svg>
-              <div className='text-3xl'>
+              <div className='text-2xl'>
               All Transaction
                 <p className="font-normal text-lg text-gray-700">
-                {count}
+                {allCount}
               </p>
               </div>
               </h5>
@@ -40,13 +58,13 @@ const Dashboard = () => {
             >
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center">
               <svg className="w-14 h-14 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 17.345a4.76 4.76 0 0 0 2.558 1.618c2.274.589 4.512-.446 4.999-2.31.487-1.866-1.273-3.9-3.546-4.49-2.273-.59-4.034-2.623-3.547-4.488.486-1.865 2.724-2.899 4.998-2.31.982.236 1.87.793 2.538 1.592m-3.879 12.171V21m0-18v2.2"/>
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4"/>
               </svg>
 
-              <div className='text-3xl'>
-              Daily Income
+              <div className='text-2xl'>
+              Ongoing Transaction
                 <p className="font-normal text-gray-700 text-lg">
-                500
+                {onGoing}
               </p>
               </div>
               </h5>
@@ -56,13 +74,13 @@ const Dashboard = () => {
             >
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center">
               <svg className="w-14 h-14 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                <path fillRule="evenodd" d="M9 15a6 6 0 1 1 12 0 6 6 0 0 1-12 0Zm3.845-1.855a2.4 2.4 0 0 1 1.2-1.226 1 1 0 0 1 1.992-.026c.426.15.809.408 1.111.749a1 1 0 1 1-1.496 1.327.682.682 0 0 0-.36-.213.997.997 0 0 1-.113-.032.4.4 0 0 0-.394.074.93.93 0 0 0 .455.254 2.914 2.914 0 0 1 1.504.9c.373.433.669 1.092.464 1.823a.996.996 0 0 1-.046.129c-.226.519-.627.94-1.132 1.192a1 1 0 0 1-1.956.093 2.68 2.68 0 0 1-1.227-.798 1 1 0 1 1 1.506-1.315.682.682 0 0 0 .363.216c.038.009.075.02.111.032a.4.4 0 0 0 .395-.074.93.93 0 0 0-.455-.254 2.91 2.91 0 0 1-1.503-.9c-.375-.433-.666-1.089-.466-1.817a.994.994 0 0 1 .047-.134Zm1.884.573.003.008c-.003-.005-.003-.008-.003-.008Zm.55 2.613s-.002-.002-.003-.007a.032.032 0 0 1 .003.007ZM4 14a1 1 0 0 1 1 1v4a1 1 0 1 1-2 0v-4a1 1 0 0 1 1-1Zm3-2a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1Zm6.5-8a1 1 0 0 1 1-1H18a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-.796l-2.341 2.049a1 1 0 0 1-1.24.06l-2.894-2.066L6.614 9.29a1 1 0 1 1-1.228-1.578l4.5-3.5a1 1 0 0 1 1.195-.025l2.856 2.04L15.34 5h-.84a1 1 0 0 1-1-1Z" clipRule="evenodd"/>
+                <path fillRule="evenodd" d="M12 2c-.791 0-1.55.314-2.11.874l-.893.893a.985.985 0 0 1-.696.288H7.04A2.984 2.984 0 0 0 4.055 7.04v1.262a.986.986 0 0 1-.288.696l-.893.893a2.984 2.984 0 0 0 0 4.22l.893.893a.985.985 0 0 1 .288.696v1.262a2.984 2.984 0 0 0 2.984 2.984h1.262c.261 0 .512.104.696.288l.893.893a2.984 2.984 0 0 0 4.22 0l.893-.893a.985.985 0 0 1 .696-.288h1.262a2.984 2.984 0 0 0 2.984-2.984V15.7c0-.261.104-.512.288-.696l.893-.893a2.984 2.984 0 0 0 0-4.22l-.893-.893a.985.985 0 0 1-.288-.696V7.04a2.984 2.984 0 0 0-2.984-2.984h-1.262a.985.985 0 0 1-.696-.288l-.893-.893A2.984 2.984 0 0 0 12 2Zm3.683 7.73a1 1 0 1 0-1.414-1.413l-4.253 4.253-1.277-1.277a1 1 0 0 0-1.415 1.414l1.985 1.984a1 1 0 0 0 1.414 0l4.96-4.96Z" clipRule="evenodd"/>
               </svg>
 
-                <div className='text-3xl'>
-                Monthly Income
+                <div className='text-2xl'>
+                Completed Transaction
                 <p className="font-normal text-gray-700 text-lg">
-                500
+                {completed}
               </p>
                 </div>
               </h5>
