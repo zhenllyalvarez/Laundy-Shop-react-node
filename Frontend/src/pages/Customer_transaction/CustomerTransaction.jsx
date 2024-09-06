@@ -4,6 +4,8 @@ import axios from 'axios';
 
 const CustomerTransaction = () => {
   const [transaction, setTransaction] = useState([]);
+  const [filteredTransactions, setFilteredTransactions] = useState([]);
+  const [search, setSearch] = useState('');
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -15,9 +17,26 @@ const CustomerTransaction = () => {
     axios.get('http://localhost:8080/api/customer/transaction/list?status=0')
     .then(res => {
       setTransaction(res.data);
+      setFilteredTransactions(res.data);
     })
     .catch(err => console.log(err));
   }, []);
+
+  useEffect(() => {
+    let updatedTransactions = transaction;
+
+    if (search) {
+      updatedTransactions = updatedTransactions.filter((data) =>
+        data.name.toLowerCase().includes(search.toLowerCase()) ||
+        data.number.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+    setFilteredTransactions(updatedTransactions); // Update filtered list
+  }, [search, transaction]);
+
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
+  };
 
   
   const hanldeBtn = (id) => {
@@ -38,7 +57,10 @@ const CustomerTransaction = () => {
           <p className='mb-14  text-gray-500 font-light'>You can add a new transaction here, and once it's submitted, you'll be able to see it displayed in the table below, where all transactions are listed.</p>
           <div className='flex justify-between'>
           <Link to='/AddCustomerTransaction' className='bg-blue-500 hover:bg-blue-600 px-5 py-4 w-30 text-sm font-semibold rounded text-white shadow'>Add Transaction</Link>
-          <input className='w-60 outline-0 bg-gray-100 px-4 h-12 text-gray-500 rounded shadow' type="search" name="search" id="" placeholder='Search here...'/>
+          <input className='w-60 outline-0 bg-gray-100 px-4 h-12 text-gray-500 rounded shadow' type="search" name="search" id="" placeholder='Search here...'
+            value={search}
+            onChange={handleSearchChange}
+          />
           </div>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
               <table className="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -72,7 +94,7 @@ const CustomerTransaction = () => {
                   </thead>
                   <tbody>
                     {
-                      transaction.map((data, i) => {
+                      filteredTransactions.map((data, i) => {
                         return (
                           <tr key={i} className="bg-white border-b hover:bg-gray-50">
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
@@ -106,7 +128,6 @@ const CustomerTransaction = () => {
                     }
                   </tbody>
               </table>
-              {/* <Pagination/> */}
           </div>
         </div>
       </div>
