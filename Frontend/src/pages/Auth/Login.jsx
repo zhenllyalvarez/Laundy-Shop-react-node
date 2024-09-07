@@ -3,7 +3,13 @@ import { Link } from 'react-router-dom'
 
 const Login = () => {
     const [ email, setEmail ] = useState('');
+    const [ password, setPaww ] = useState('');
 
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        
+    }
 
   return (
     <>
