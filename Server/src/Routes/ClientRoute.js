@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 
+
 router.post("/api/register", async (req, res) => {
     const { fullname, email, number, password, conpassword } = req.body;
     const checkUser = "SELECT * FROM user WHERE fullname = ? OR email = ?";
@@ -45,26 +46,40 @@ router.post("/api/register", async (req, res) => {
 });
 
 router.post("/api/login", async (req, res) => {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
     const checkEmail = "SELECT * FROM user WHERE email = ?";
 
-    connection.query(checkEmail, [email], async (err, results) => {
-        if (err) {
-            return res.status(500).json({ message: "Database error", error: err });
-        }
+    try {
+        connection.query(checkEmail, [email], async (err, results) => {
+            if (err) {
+                console.error("Database error:", err.message); // Log error message
+                return res.status(500).json({ message: "Database error", error: err.message });
+            }
 
-        if(results.length === 0) {
-            res.status(404).json({ message: "User not existed" });
-        }
+            if (results.length === 0) {
+                return res.status(404).json({ message: "User not found" });
+            }
 
-        const isMatch = await bcrypt.compare(password);
-        if(!isMatch) {
-            res.status(401).json({ message: "Wrong password" });
-        }
+            try {
+                const isMatch = await bcrypt.compare(password, results[0].password);
+                if (!isMatch) {
+                    return res.status(401).json({ message: "Wrong password" });
+                }
 
-        const token = jwt.sign({id})
-    });
+                const token = jwt.sign({ id: results[0].id }, process.env.JWT_KEY, { expiresIn: "24h" });
+                console.log("JWT_KEY:", process.env.JWT_KEY);
+                return res.status(200).json({ token: token });
+            } catch (error) {
+                console.error("Bcrypt or JWT error:", error.message); // Log error message
+                return res.status(500).json({ message: "Internal server error", error: error.message });
+            }
+        });
+    } catch (error) {
+        console.error("Unexpected error:", error.message); // Log unexpected errors
+        return res.status(500).json({ message: "Internal server error", error: error.message });
+    }
 });
+
 
 // Fetch transactions with a specific status
 router.get("/api/customer/transaction/list", (req, res) => {
