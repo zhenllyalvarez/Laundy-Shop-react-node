@@ -1,8 +1,10 @@
+import SideNavbar from '../../components/SideNavbar'
 import React from 'react'
 
 const Settings = () => {
   return (
     <>
+    <SideNavbar/>
       <div className="p-4 sm:ml-64">
         <div>
           <h1 className='text-gray-500 text-6xl font-bold mb-8'>Settings</h1>

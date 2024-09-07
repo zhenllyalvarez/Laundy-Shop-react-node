@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import SideNavbar from '../../components/SideNavbar';
 
 const Dashboard = () => {
   const [allCount, setAllCount] = useState('');
@@ -33,6 +34,7 @@ const Dashboard = () => {
 
   return (
     <>
+    <SideNavbar/>
       <div className="p-4 sm:ml-64">
         <div>
           <h1 className="text-gray-500 text-4xl font-bold">Dashboard</h1>

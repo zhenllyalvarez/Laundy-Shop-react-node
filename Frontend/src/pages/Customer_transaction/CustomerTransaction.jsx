@@ -1,3 +1,4 @@
+import SideNavbar from '../../components/SideNavbar';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -51,6 +52,7 @@ const CustomerTransaction = () => {
 
   return (
     <>
+    <SideNavbar/>
       <div className="p-4 sm:ml-64">
         <div>
           <h1 className='text-gray-500 text-4xl font-bold'>Customer Transaction</h1>

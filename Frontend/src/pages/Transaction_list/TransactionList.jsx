@@ -1,3 +1,4 @@
+import SideNavbar from '../../components/SideNavbar';
 import React, { useEffect, useState, useRef } from 'react'
 import axios from 'axios';
 import { Pagination } from 'antd';
@@ -71,6 +72,7 @@ const TransactionList = () => {
 
   return (
     <>
+    <SideNavbar/>
       <div className="p-4 sm:ml-64">
         <div>
           <h1 className='text-gray-500 text-4xl font-bold'>Customer Transaction</h1>

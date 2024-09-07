@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import SideNavbar from '../../components/SideNavbar';
 
 const AddCustomerTransaction = () => {
   const navigate = useNavigate();
 
   return (
     <>
+    <SideNavbar/>
       <div className="p-16 sm:ml-64">
         <form className="max-w-lg mx-auto border rounded shadow shadow-gray-300 p-8">
           <div className="relative z-0 w-full mb-5 group">
