@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const connection = require("../Config/DatabaseConfig");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 
 router.post("/api/register", async (req, res) => {
@@ -45,6 +46,24 @@ router.post("/api/register", async (req, res) => {
 
 router.post("/api/login", async (req, res) => {
     const {email, password} = req.body;
+    const checkEmail = "SELECT * FROM user WHERE email = ?";
+
+    connection.query(checkEmail, [email], async (err, results) => {
+        if (err) {
+            return res.status(500).json({ message: "Database error", error: err });
+        }
+
+        if(results.length === 0) {
+            res.status(404).json({ message: "User not existed" });
+        }
+
+        const isMatch = await bcrypt.compare(password);
+        if(!isMatch) {
+            res.status(401).json({ message: "Wrong password" });
+        }
+
+        const token = jwt.sign({id})
+    });
 });
 
 // Fetch transactions with a specific status
