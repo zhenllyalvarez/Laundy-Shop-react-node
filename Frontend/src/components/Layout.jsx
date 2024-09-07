@@ -6,6 +6,7 @@ import AddCustomerTransaction from '../pages/Customer_transaction/AddCustomerTra
 import UpdateCustomerTransaction from '../pages/Customer_transaction/UpdateCustomerTransaction';
 import Settings from '../pages/Settings/Settings';
 import Login from '../pages/Auth/Login';
+import { Register } from '../pages/Auth/Register';
 
 const Layout = () => {
   return (
@@ -13,6 +14,7 @@ const Layout = () => {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Login/>}></Route>
+          <Route path='/Register' element={<Register/>}/>
           <Route path='/Dashboard' element={<Dashboard/>}/>
           <Route path='/CustomerTransaction' element={<CustomerTransaction/>}/>
           <Route path='/AddCustomerTransaction' element={<AddCustomerTransaction/>}/>
