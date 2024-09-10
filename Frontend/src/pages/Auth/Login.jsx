@@ -13,8 +13,8 @@ const Login = () => {
             const response = await axios.post("http://localhost:8080/api/login", { email, password }, { withCredentials: true });
             navigate("/Dashboard");
             console.log(response.data);
-        } catch (err) {
-            console.log(err); // Log the full error object
+        }catch (err) {
+            console.log(err);
             if (err.response) {
                 if (err.response.status === 404) {
                     alert("User does not exist.");

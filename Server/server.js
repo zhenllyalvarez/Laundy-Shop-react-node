@@ -10,11 +10,9 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-
-// Configure CORS to allow credentials and specify the frontend origin
 app.use(cors({
-    origin: 'http://localhost:5173', // Adjust this to your React frontend URL
-    credentials: true // Allow cookies to be sent/received
+    origin: 'http://localhost:5173',
+    credentials: true
 }));
 
 // Static files
