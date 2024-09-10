@@ -10,15 +10,27 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:8080/api/login", { email, password });
+            const response = await axios.post("http://localhost:8080/api/login", { email, password }, { withCredentials: true });
             navigate("/Dashboard");
             console.log(response.data);
         } catch (err) {
-            console.error("Login error:", err);
-            // Show a user-friendly error message
-            alert("Login failed. Please check your credentials and try again.");
+            console.log(err); // Log the full error object
+            if (err.response) {
+                if (err.response.status === 404) {
+                    alert("User does not exist.");
+                } else if (err.response.status === 401) {
+                    alert("Incorrect password.");
+                } else {
+                    alert("Login failed. Please check your credentials and try again.");
+                }
+            } else {
+                console.error("Login error:", err);
+                alert("An unexpected error occurred. Please try again later.");
+            }
         }
-    }
+        
+    };
+    
     
 
   return (

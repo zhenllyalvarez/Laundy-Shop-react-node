@@ -45,28 +45,39 @@ router.post("/api/register", async (req, res) => {
 });
 
 router.post("/api/login", async (req, res) => {
-    const {email, password} = req.body;
-    const checkEmail = "SELECT * FROM user WHERE email = ?";
+    const { email, password } = req.body;
 
+    // Mocking a DB check
+    const checkEmail = "SELECT * FROM user WHERE email = ?";
     connection.query(checkEmail, [email], async (err, results) => {
         if (err) {
             return res.status(500).json({ message: "Database error", error: err });
         }
 
-        if(results.length === 0) {
-            res.status(404).json({ message: "User not existed" });
-        }
-        
-        const isMatch = await bcrypt.compare(password, results[0].password);
-        if(!isMatch) {
-            res.status(401).json({ message: "Wrong password" });
+        if (results.length === 0) {
+            return res.status(404).json({ message: "User not existed" });
         }
 
-        const token = jwt.sign({id: results.id}, process.env.JWT_KEY, {expiresIn: "24h"});
+        const user = results[0];
+        const isMatch = await bcrypt.compare(password, user.password);
 
-        return res.status(200).json({ message: "login Successful", token: token})
+        if (!isMatch) {
+            return res.status(401).json({ message: "Wrong password" });
+        }
+
+        const token = jwt.sign({ id: user.id }, process.env.JWT_KEY, { expiresIn: "24h" });
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production", // true for production
+            maxAge: 24 * 60 * 60 * 1000 // 1 day
+        });
+
+        return res.status(200).json({ message: "Login successful", token });
     });
 });
+
+
 
 // Fetch transactions with a specific status
 router.get("/api/customer/transaction/list", (req, res) => {
