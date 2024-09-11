@@ -16,24 +16,27 @@ const CustomerTransaction = () => {
 
   useEffect(() => {
     axios.get('http://localhost:8080/api/customer/transaction/list?status=0')
-    .then(res => {
-      setTransaction(res.data);
-      setFilteredTransactions(res.data);
-    })
-    .catch(err => console.log(err));
+      .then(res => {
+        const data = Array.isArray(res.data) ? res.data : [];  // Ensure res.data is an array
+        setTransaction(data);
+        setFilteredTransactions(data);
+      })
+      .catch(err => console.log(err));
   }, []);
+  
 
   useEffect(() => {
     let updatedTransactions = transaction;
-
+  
     if (search) {
       updatedTransactions = updatedTransactions.filter((data) =>
         data.name.toLowerCase().includes(search.toLowerCase()) ||
         data.number.toLowerCase().includes(search.toLowerCase())
       );
     }
-    setFilteredTransactions(updatedTransactions); // Update filtered list
+    setFilteredTransactions(Array.isArray(updatedTransactions) ? updatedTransactions : []);  // Ensure it's an array
   }, [search, transaction]);
+  
 
   const handleSearchChange = (event) => {
     setSearch(event.target.value);

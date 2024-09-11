@@ -3,7 +3,23 @@ const router = express.Router();
 const connection = require("../Config/DatabaseConfig");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const verifyUser = (req, res, next) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.json({ message: "Unauthorized access, token missing." });
+      }
+      jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+        if (err) {
+          return res.json({ message: "Invalid or expired token." });
+        }
+        req.user = decoded.user;
+        next();
+      });      
+}
 
+router.get("/api/verify", verifyUser, (req, res) => {
+    return res.json({ message: "Success", user: req.user});
+});
 
 router.post("/api/register", async (req, res) => {
     const { fullname, email, number, password, conpassword } = req.body;
@@ -69,18 +85,18 @@ router.post("/api/login", async (req, res) => {
 
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production", // true for production
-            maxAge: 24 * 60 * 60 * 1000 // 1 day
+            secure: process.env.NODE_ENV === "production",
+            maxAge: 24 * 60 * 60 * 1000
         });
 
-        return res.status(200).json({ message: "Login successful", token });
+        return res.status(200).json({ message: "isLoggedIn", token });
     });
 });
 
 
 
 // Fetch transactions with a specific status
-router.get("/api/customer/transaction/list", (req, res) => {
+router.get("/api/customer/transaction/list", verifyUser, (req, res) => {
     const status = req.query.status || 0;
     const query = "SELECT * FROM client_transaction WHERE status = ?";
     
@@ -93,7 +109,7 @@ router.get("/api/customer/transaction/list", (req, res) => {
     });
 });
 
-router.get("/api/completed/transaction/list", (req, res) => {
+router.get("/api/completed/transaction/list", verifyUser, (req, res) => {
     const status = req.query.status || 1;
     const query = "SELECT * FROM client_transaction WHERE status = ?";
 
@@ -107,7 +123,7 @@ router.get("/api/completed/transaction/list", (req, res) => {
 });
 
 // fetch all
-router.get('/api/transaction/list', (req, res) => {
+router.get('/api/transaction/list', verifyUser, (req, res) => {
     const query = "SELECT * FROM client_transaction";
     connection.query(query, (err, result) => {
         if(err) {
@@ -118,7 +134,7 @@ router.get('/api/transaction/list', (req, res) => {
     })
 });
 
-router.post("/api/add/transaction", (req, res) => {
+router.post("/api/add/transaction", verifyUser, (req, res) => {
     const query = "INSERT INTO client_transaction (name, number, type, kilo, price, transaction_date, date_received) VALUES (?,?,?,?,?,?,?)";
     const {name, number, type, kilo, price, transaction_date, date_received} = req.body;
     const values = [name, number, type, kilo, price, transaction_date, date_received];
@@ -133,7 +149,7 @@ router.post("/api/add/transaction", (req, res) => {
 });
 
 // update the status
-router.put("/api/transaction/update/:id", (req, res) => {
+router.put("/api/transaction/update/:id", verifyUser, (req, res) => {
     const query = "UPDATE client_transaction SET status = ? WHERE id = ?";
     const id = req.params.id;
     const { status } = req.body;
@@ -145,5 +161,11 @@ router.put("/api/transaction/update/:id", (req, res) => {
         }
     })
 });
+
+router.get("/api/logout", verifyUser, (req, res) => {
+    res.clearCookie('token');
+    return res.status(200).json({ message: "Logged out successfully." });
+  });
+  
 
 module.exports = router;

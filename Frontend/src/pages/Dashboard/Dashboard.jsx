@@ -7,7 +7,6 @@ const Dashboard = () => {
   const [onGoing, setOnGoing] = useState('');
   const [completed, setCompleted] = useState();
 
-  
   useEffect(() => {
     axios.get('http://localhost:8080/api/transaction/list')
     .then(res => {

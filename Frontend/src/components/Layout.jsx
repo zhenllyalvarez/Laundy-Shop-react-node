@@ -7,6 +7,7 @@ import UpdateCustomerTransaction from '../pages/Customer_transaction/UpdateCusto
 import Settings from '../pages/Settings/Settings';
 import Login from '../pages/Auth/Login';
 import { Register } from '../pages/Auth/Register';
+import PrivateRoute from './PrivateRoute';
 
 const Layout = () => {
   return (
@@ -14,13 +15,13 @@ const Layout = () => {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Login/>}></Route>
-          <Route path='/Register' element={<Register/>}/>
-          <Route path='/Dashboard' element={<Dashboard/>}/>
-          <Route path='/CustomerTransaction' element={<CustomerTransaction/>}/>
-          <Route path='/AddCustomerTransaction' element={<AddCustomerTransaction/>}/>
-          <Route path='/UpdateCustomerTransaction' element={<UpdateCustomerTransaction/>}/>
-          <Route path='/TransactionList' element={<TransactionList/>}/>
-          <Route path='/Settings' element={<Settings/>}/>
+          <Route path='/Register' element={<Register/>}></Route>
+          <Route path='/Dashboard' element={<PrivateRoute><Dashboard/></PrivateRoute>}/>
+          <Route path='/CustomerTransaction' element={<PrivateRoute><CustomerTransaction/></PrivateRoute>}/>
+          <Route path='/AddCustomerTransaction' element={<PrivateRoute><AddCustomerTransaction/></PrivateRoute>}/>
+          <Route path='/UpdateCustomerTransaction' element={<PrivateRoute><UpdateCustomerTransaction/></PrivateRoute>}/>
+          <Route path='/TransactionList' element={<PrivateRoute><TransactionList/></PrivateRoute>}/>
+          <Route path='/Settings' element={<PrivateRoute><Settings/></PrivateRoute>}/>
         </Routes>
       </BrowserRouter>  
     </div>
