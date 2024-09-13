@@ -163,7 +163,12 @@ router.put("/api/transaction/update/:id", verifyUser, (req, res) => {
 });
 
 router.get("/api/logout", verifyUser, (req, res) => {
-    res.clearCookie('token');
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        path: '/' // make sure this matches the path where the cookie was set
+    });
     return res.status(200).json({ message: "Logged out successfully." });
   });
   

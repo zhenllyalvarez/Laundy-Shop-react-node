@@ -5,10 +5,10 @@ import SideNavbar from '../../components/SideNavbar';
 const Dashboard = () => {
   const [allCount, setAllCount] = useState('');
   const [onGoing, setOnGoing] = useState('');
-  const [completed, setCompleted] = useState();
+  const [completed, setCompleted] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/transaction/list')
+    axios.get('http://localhost:8080/api/transaction/list', {withCredentials: true})
     .then(res => {
       setAllCount(res.data.length);
     })
@@ -16,15 +16,16 @@ const Dashboard = () => {
   }, []);
   
   useEffect(() => {
-    axios.get('http://localhost:8080/api/customer/transaction/list')
+    axios.get('http://localhost:8080/api/customer/transaction/list', { withCredentials: true })
     .then(res => {
       setOnGoing(res.data.length);
+      console.log(res.data.length);
     })
     .catch(err => console.log(err));
   }, []);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/completed/transaction/list')
+    axios.get('http://localhost:8080/api/completed/transaction/list', {withCredentials: true})
     .then(res => {
       setCompleted(res.data.length);
     })

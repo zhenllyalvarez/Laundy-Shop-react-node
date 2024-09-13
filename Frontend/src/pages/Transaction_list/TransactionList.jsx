@@ -20,7 +20,7 @@ const TransactionList = () => {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/transaction/list')
+    axios.get('http://localhost:8080/api/transaction/list', {withCredentials: true})
     .then(res => {
       setTransaction(res.data);
       setFilteredTransactions(res.data)

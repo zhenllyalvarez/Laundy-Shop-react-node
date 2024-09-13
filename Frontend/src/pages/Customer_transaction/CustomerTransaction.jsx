@@ -15,7 +15,7 @@ const CustomerTransaction = () => {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/customer/transaction/list?status=0')
+    axios.get('http://localhost:8080/api/customer/transaction/list?status=0', {withCredentials: true})
       .then(res => {
         const data = Array.isArray(res.data) ? res.data : [];  // Ensure res.data is an array
         setTransaction(data);
@@ -44,7 +44,7 @@ const CustomerTransaction = () => {
 
   
   const hanldeBtn = (id) => {
-      axios.put(`http://localhost:8080/api/transaction/update/${id}`, {status: 1})
+      axios.put(`http://localhost:8080/api/transaction/update/${id}`, {status: 1}, {withCredentials: true})
       .then(res => {
         setTransaction(transaction.filter(item => item.id !== id));
         console.log(res.data);

@@ -8,14 +8,15 @@ import Settings from '../pages/Settings/Settings';
 import Login from '../pages/Auth/Login';
 import { Register } from '../pages/Auth/Register';
 import PrivateRoute from './PrivateRoute';
+import PublicRoute from './PublicRoute';
 
 const Layout = () => {
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Login/>}></Route>
-          <Route path='/Register' element={<Register/>}></Route>
+          <Route path='/' element={<PublicRoute><Login/></PublicRoute>}></Route>
+          <Route path='/Register' element={<PublicRoute><Register/></PublicRoute>}></Route>
           <Route path='/Dashboard' element={<PrivateRoute><Dashboard/></PrivateRoute>}/>
           <Route path='/CustomerTransaction' element={<PrivateRoute><CustomerTransaction/></PrivateRoute>}/>
           <Route path='/AddCustomerTransaction' element={<PrivateRoute><AddCustomerTransaction/></PrivateRoute>}/>

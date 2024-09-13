@@ -1,18 +1,15 @@
 import axios from 'axios';
 import SideNavbar from '../../components/SideNavbar'
-import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 const Settings = () => {
-  const [ auth, setAuth ] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    axios.get('http://localhost:8080/api/logout')
+    axios.get('http://localhost:8080/api/logout', { withCredentials: true })
     .then(res => {
       navigate('/');
-      console.log(res.data.status);
-      location.reload(true)
+      window.location.reload();
     }) 
     .catch(err => console.log(err));
   }

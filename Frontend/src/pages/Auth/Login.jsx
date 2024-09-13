@@ -1,37 +1,55 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from "axios";
+import BtnSpinner from '../../components/TransasctionCount/BtnSpinner';
 
 const Login = () => {
     const [ values, setValues ] = useState({
         email: '',
         password: ''
     });
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setLoading(true);
+    
+        // Record the start time
+        const startTime = Date.now();
+    
         try {
             const response = await axios.post("http://localhost:8080/api/login", values, { withCredentials: true });
+            // Navigate to dashboard after successful login
             navigate("/Dashboard");
             console.log(response.data);
-        }catch (err) {
-            console.log(err);
-            if (err.response) {
-                if (err.response.status === 404) {
-                    alert("User does not exist.");
-                } else if (err.response.status === 401) {
-                    alert("Incorrect password.");
+        } catch (err) {
+            // Calculate time elapsed since the start of the loading state
+            const elapsedTime = Date.now() - startTime;
+            const remainingTime = Math.max(2000 - elapsedTime, 0); // Ensure at least 2 seconds total
+    
+            // Set a timeout to delay the alert message
+            setTimeout(() => {
+                if (err.response) {
+                    if (err.response.status === 404) {
+                        alert("User does not exist.");
+                    } else if (err.response.status === 401) {
+                        alert("Incorrect password.");
+                    } else {
+                        alert("Login failed. Please check your credentials and try again.");
+                    }
                 } else {
-                    alert("Login failed. Please check your credentials and try again.");
+                    console.error("Login error:", err);
+                    alert("An unexpected error occurred. Please try again later.");
                 }
-            } else {
-                console.error("Login error:", err);
-                alert("An unexpected error occurred. Please try again later.");
-            }
+            }, remainingTime); // Delay the alert to make sure spinner is visible for at least 2 seconds
+        } finally {
+            // Stop loading after the alert timeout completes
+            setTimeout(() => setLoading(false),2000); // Keep spinner for at least 2 seconds
         }
-        
     };
+    
+    
     
     
 
@@ -66,7 +84,9 @@ const Login = () => {
 
                         <p className='text-gray-500'>You don't have an account? register <Link to={'/Register'} className='text-blue-500 underline cursor-pointer'>here</Link></p>
 
-                        <button className="block rounded-lg bg-gray-800 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-gray-300 transition duration-100 hover:bg-gray-700 focus-visible:ring active:bg-gray-600 md:text-base">Log in</button>
+                        <button className="block rounded-lg bg-gray-800 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-gray-300 transition duration-100 hover:bg-gray-700 focus-visible:ring active:bg-gray-600 md:text-base">
+                        {loading ? <BtnSpinner /> : "Log in"}
+                        </button>
 
                         <div className="relative flex items-center justify-center">
                             <span className="absolute inset-x-0 h-px bg-gray-300"></span>
