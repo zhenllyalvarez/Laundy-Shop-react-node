@@ -6,7 +6,7 @@ import AddCustomerTransaction from '../pages/Customer_transaction/AddCustomerTra
 import UpdateCustomerTransaction from '../pages/Customer_transaction/UpdateCustomerTransaction';
 import Settings from '../pages/Settings/Settings';
 import Login from '../pages/Auth/Login';
-import { Register } from '../pages/Auth/Register';
+import Register from '../pages/Auth/Register';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 

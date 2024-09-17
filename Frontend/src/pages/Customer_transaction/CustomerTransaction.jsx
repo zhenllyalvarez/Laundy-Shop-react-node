@@ -1,12 +1,16 @@
 import SideNavbar from '../../components/SideNavbar';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Pagination } from 'antd';
 
 const CustomerTransaction = () => {
   const [transaction, setTransaction] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const [search, setSearch] = useState('');
+  const tableContainer = useRef(null);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -133,6 +137,9 @@ const CustomerTransaction = () => {
                     }
                   </tbody>
               </table>
+              <Pagination
+                className='p-2'
+              />
           </div>
         </div>
       </div>

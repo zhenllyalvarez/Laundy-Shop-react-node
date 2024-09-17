@@ -148,6 +148,34 @@ router.post("/api/add/transaction", verifyUser, (req, res) => {
     });
 });
 
+router.get("/api/update/transaction/:id", verifyUser, (req, res) => {
+    const id = req.params.id;
+    const query = "SELECT * FROM client_transaction WHERE id =?";
+    connection.query(query, [id], (err, result) => {
+        if(err) {
+            return res.status(500).json({ message: "Failed to fetch data" });
+        } else {
+            res.json(result);
+        }
+    })
+});
+
+// update transaction
+router.get('/api/update/transaction/:id', verifyUser, (req, res) => {
+    const id = req.params.id;
+    const { name, number, type, kilo, price, transaction_date, date_received } = req.body;
+    const query = "UPDATE client_transaction SET name = ?, number = ?, type = ?, kilo = ?, price = ?, transaction_date = ?, date_received = ? WHERE id = ?";
+    const values = [name, number, type, kilo, price, transaction_date, date_received, id];
+    connection.query(query, values, (err, result) => {
+        if(err) {
+            console.error(err);
+            return res.status(500).json({ message: "Failed to fetch data" });
+        } else {
+            res.json(result);
+        }
+    });
+});
+
 // update the status
 router.put("/api/transaction/update/:id", verifyUser, (req, res) => {
     const query = "UPDATE client_transaction SET status = ? WHERE id = ?";
