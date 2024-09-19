@@ -134,19 +134,21 @@ router.get('/api/transaction/list', verifyUser, (req, res) => {
     })
 });
 
-router.post("/api/add/transaction", verifyUser, (req, res) => {
-    const query = "INSERT INTO client_transaction (name, number, type, kilo, price, transaction_date, date_received) VALUES (?,?,?,?,?,?,?)";
-    const {name, number, type, kilo, price, transaction_date, date_received} = req.body;
-    const values = [name, number, type, kilo, price, transaction_date, date_received];
-
+router.put('/api/update/transaction/:id', verifyUser, (req, res) => {
+    const id = req.params.id;
+    const { name, number, type, kilo, price, transaction_date, date_received } = req.body;
+    const query = "UPDATE client_transaction SET name = ?, number = ?, type = ?, kilo = ?, price = ?, transaction_date = ?, date_received = ? WHERE id = ?";
+    const values = [name, number, type, kilo, price, transaction_date, date_received, id];
     connection.query(query, values, (err, result) => {
-        if(err) {
-            return res.status(500).json({ error: "Failed to add data" });
-        } else {
-            res.json(result);
-        }
+      if(err) {
+        console.error(err);
+        return res.status(500).json({ message: "Failed to update data" });
+      } else {
+        res.json({ message: "Transaction updated successfully" });
+      }
     });
-});
+  });
+  
 
 router.get("/api/update/transaction/:id", verifyUser, (req, res) => {
     const id = req.params.id;

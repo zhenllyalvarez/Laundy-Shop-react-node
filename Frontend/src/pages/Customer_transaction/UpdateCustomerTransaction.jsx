@@ -1,24 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import SideNavbar from "../../components/SideNavbar";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AddCustomerTransaction = () => {
-  const [values, setValues] = useState({}); // Initialize an empty object to store the transaction data
-  const [id, setId] = useState("");
+  const [values, setValues] = useState({
+    name: "",
+    number: "",
+    type: "",
+    kilo: "",
+    price: "",
+    transaction_date: "",
+    date_received: "",
+  }); // Initialize an empty object to store the transaction data
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTransactionId = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/update/transaction/:id",
+          `http://localhost:8080/api/update/transaction/${id}`,
           { withCredentials: true }
         );
-        setValues(response.data);
+
+        if (response.data && response.data.length > 0) {
+          const data = response.data[0];
+          // Format the dates before setting the state
+          const formattedTransactionDate = new Date(data.transaction_date)
+            .toISOString()
+            .split("T")[0]; // yyyy-MM-dd
+          const formattedReceivedDate = new Date(data.date_received)
+            .toISOString()
+            .split("T")[0]; // yyyy-MM-dd
+
+          setValues({
+            ...data,
+            transaction_date: formattedTransactionDate,
+            date_received: formattedReceivedDate,
+          });
+        }
       } catch (err) {
         console.error(err);
       }
     };
+
     if (id) {
       fetchTransactionId();
     }
@@ -27,15 +54,15 @@ const AddCustomerTransaction = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios
-        .get("http://localhost:8080/api/update/transaction/:id", {
-          withCredentials: true,
-        })
-        .then((res) => {
-          console.log(response.data);
-        });
+      const response = await axios.put(
+        `http://localhost:8080/api/update/transaction/${id}`,
+        values, // Sending the updated values
+        { withCredentials: true }
+      );
+      console.log("Transaction updated:", response.data);
+      navigate("/CustomerTransaction");
     } catch (err) {
-      console.log("Somethings not good", err);
+      console.log("Something's not right", err);
     }
   };
 
@@ -48,7 +75,7 @@ const AddCustomerTransaction = () => {
       <SideNavbar />
       <div className="p-16 sm:ml-64">
         <form
-          onChange={handleUpdate}
+          onSubmit={handleUpdate}
           className="max-w-lg mx-auto border rounded shadow shadow-gray-300 p-8"
         >
           <div className="relative z-0 w-full mb-5 group">
@@ -57,9 +84,9 @@ const AddCustomerTransaction = () => {
               name="name"
               id="name"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
-              placeholder=" "
-              value={values.name}
+              value={values.name || ""}
               onChange={handleChange}
+              placeholder=" "
             />
             <label
               htmlFor="name"
@@ -74,9 +101,9 @@ const AddCustomerTransaction = () => {
               name="number"
               id="number"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              value={values.number}
+              value={values.number || ""}
               onChange={handleChange}
+              placeholder=" "
             />
             <label
               htmlFor="number"
@@ -91,9 +118,9 @@ const AddCustomerTransaction = () => {
               name="type"
               id="type"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              value={values.type}
+              value={values.type || ""}
               onChange={handleChange}
+              placeholder=" "
             />
             <label
               htmlFor="type"
@@ -108,9 +135,9 @@ const AddCustomerTransaction = () => {
               name="kilo"
               id="kilo"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              value={values.kilo}
+              value={values.kilo || ""}
               onChange={handleChange}
+              placeholder=" "
             />
             <label
               htmlFor="kilo"
@@ -125,9 +152,9 @@ const AddCustomerTransaction = () => {
               name="price"
               id="price"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              value={values.price}
+              value={values.price || ""}
               onChange={handleChange}
+              placeholder=" "
             />
             <label
               htmlFor="price"
@@ -143,9 +170,9 @@ const AddCustomerTransaction = () => {
                 name="transactiondate"
                 id="transactiondate"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                value={values.transaction_date}
+                value={values.transaction_date || ""}
                 onChange={handleChange}
+                placeholder=" "
               />
               <label
                 htmlFor="transactiondate"
@@ -160,9 +187,9 @@ const AddCustomerTransaction = () => {
                 name="receivedDate"
                 id="receivedDate"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                value={values.date_received}
+                value={values.date_received || ""}
                 onChange={handleChange}
+                placeholder=" "
               />
               <label
                 htmlFor="receivedDate"
