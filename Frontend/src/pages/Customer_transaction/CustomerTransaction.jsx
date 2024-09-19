@@ -40,14 +40,14 @@ const CustomerTransaction = () => {
     }
     setFilteredTransactions(
       Array.isArray(updatedTransactions) ? updatedTransactions : []
-    ); // Ensure it's an array
+    );
   }, [search, transaction]);
 
   const handleSearchChange = (event) => {
     setSearch(event.target.value);
   };
 
-  const hanldeBtn = (id) => {
+  const handleBtn = (id) => {
     axios
       .put(
         `http://localhost:8080/api/transaction/update/${id}`,
@@ -140,7 +140,7 @@ const CustomerTransaction = () => {
                       </td>
                       <td className="flex gap-2 px-6 py-4">
                         <button
-                          onClick={() => hanldeBtn(data.id)}
+                          onClick={() => handleBtn(data.id)}
                           className="bg-green-500 hover:bg-green-600 text-white py-2 px-2.5 rounded"
                         >
                           Complete
