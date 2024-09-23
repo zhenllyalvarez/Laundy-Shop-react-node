@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
-import axios from 'axios';
-import Spinner from './Spinner'; // Adjust the path as needed
+import React, { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
+import axios from "axios";
+import Spinner from "./Spinner"; // Adjust the path as needed
 
 const PublicRoute = ({ children }) => {
   const [auth, setAuth] = useState(null);
@@ -9,9 +9,10 @@ const PublicRoute = ({ children }) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      axios.get('http://localhost:8080/api/verify', { withCredentials: true })
-        .then(res => {
-          if (res.data.message === 'Success') {
+      axios
+        .get("http://localhost:8080/api/verify", { withCredentials: true })
+        .then((res) => {
+          if (res.data.message === "Success") {
             setAuth(true);
           } else {
             setAuth(false);
