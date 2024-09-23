@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import SideNavbar from "../../components/SideNavbar";
-import Carousel from "../../components/Dashboard/Carousel";
+import Service from "../../components/Dashboard/Service";
 
 const Dashboard = () => {
   const [allCount, setAllCount] = useState("");
@@ -128,7 +128,7 @@ const Dashboard = () => {
             </span>
           </div>
         </div>
-        <Carousel />
+        <Service />
       </div>
     </>
   );
