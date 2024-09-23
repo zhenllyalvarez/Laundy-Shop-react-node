@@ -44,11 +44,11 @@ const Dashboard = () => {
   return (
     <>
       <SideNavbar />
-      <div className="p-4 sm:ml-64">
+      <div className="max-w-full p-4 sm:ml-64">
         <div>
-          <h1 className="text-gray-500 text-4xl font-bold">Dashboard</h1>
-          <div className="card flex gap-4 mt-4">
-            <span className="flex max-w-sm w-1/2 h-32 p-4 items-center border border-gray-200 rounded-lg shadow-lg bg-blue-300">
+          <h1 className="text-gray-500 text-5xl font-bold">Dashboard</h1>
+          <div className="card max-w-full flex flex-col lg:flex-row md:flex-col gap-4 mt-4">
+            <span className="flex max-w-full w-full h-32 p-4 items-center border border-gray-200 rounded-lg shadow-lg bg-blue-300">
               <h5 className="flex items-center mb-2 text-2xl font-bold tracking-tight text-gray-900">
                 <svg
                   className="w-14 h-12 text-gray-800"
@@ -74,7 +74,7 @@ const Dashboard = () => {
               </h5>
             </span>
 
-            <span className="flex max-w-sm w-1/2 h-32 p-4 items-center border border-gray-200 rounded-lg shadow-lg bg-green-300">
+            <span className="flex max-w-full w-full h-32 p-4 items-center border border-gray-200 rounded-lg shadow-lg bg-green-300">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center">
                 <svg
                   className="w-14 h-14 text-gray-800"
@@ -100,7 +100,7 @@ const Dashboard = () => {
                 </div>
               </h5>
             </span>
-            <span className="flex max-w-sm w-1/2 h-32 p-4 items-center border border-gray-200 rounded-lg shadow-lg bg-pink-300">
+            <span className="flex max-w-full w-full h-32 p-4 items-center border border-gray-200 rounded-lg shadow-lg bg-pink-300">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center">
                 <svg
                   className="w-14 h-14 text-gray-800"
