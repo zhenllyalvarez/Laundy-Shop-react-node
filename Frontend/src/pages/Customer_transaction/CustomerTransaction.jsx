@@ -74,7 +74,7 @@ const CustomerTransaction = () => {
             be able to see it displayed in the table below, where all
             transactions are listed.
           </p>
-          <div className="flex justify-between">
+          <div className="flex flex-col sm:flex-row md:flex-row gap-2 justify-between">
             <Link
               to="/AddCustomerTransaction"
               className="bg-blue-500 hover:bg-blue-600 px-5 py-4 w-30 text-sm font-semibold rounded text-white shadow"
@@ -82,7 +82,7 @@ const CustomerTransaction = () => {
               Add Transaction
             </Link>
             <input
-              className="w-60 outline-0 bg-gray-100 px-4 h-12 text-gray-500 rounded shadow"
+              className="w-full lg:w-60 outline-0 bg-gray-100 px-4 h-12 text-gray-500 rounded shadow"
               type="search"
               name="search"
               id=""
