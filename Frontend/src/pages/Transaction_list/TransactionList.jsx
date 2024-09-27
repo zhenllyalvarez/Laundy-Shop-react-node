@@ -78,11 +78,11 @@ const TransactionList = () => {
           <h1 className='text-gray-500 text-4xl font-bold'>Customer Transaction</h1>
           <p className='mb-8 text-gray-500 font-light'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut quibusdam impedit, quisquam exercitationem, laboriosam quis, nobis optio sint <br /> temporibus amet mollitia sequi commodi suscipit reiciendis deserunt error voluptate. Explicabo, nobis.</p>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-8" ref={tableContainer}>
-            <div className='flex gap-2'>
-              <input className='w-60 outline-0 bg-gray-100 px-4 h-12 mb-2 text-gray-500 rounded shadow' type="search" name="search" id="" placeholder='Search here...'
+            <div className='flex flex-col sm:flex-row md:flex-row gap-2'>
+              <input className='w-full lg:w-60 md:w-60 outline-0 bg-gray-100 px-4 h-12 mb-2 text-gray-500 rounded shadow' type="search" name="search" id="" placeholder='Search here...'
                 value={search}
                 onChange={handleSearchChange}/>
-              <select className='w-60 outline-0 bg-gray-100 px-4 h-12 mb-2 text-gray-500 rounded shadow'
+              <select className='w-full lg:w-60 md:w-60 outline-0 bg-gray-100 px-4 h-12 mb-2 text-gray-500 rounded shadow'
                 value={filter}
                 onChange={handleFilterChange}>
                 <option value="all">All Transactions</option>
