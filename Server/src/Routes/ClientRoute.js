@@ -149,6 +149,19 @@ router.put('/api/update/transaction/:id', verifyUser, (req, res) => {
     });
   });
   
+  router.post("/api/add/transaction", verifyUser, (req, res) => {
+    const query = "INSERT INTO client_transaction (name, number, type, kilo, price, transaction_date, date_received) VALUES (?,?,?,?,?,?,?)";
+    const {name, number, type, kilo, price, transaction_date, date_received} = req.body;
+    const values = [name, number, type, kilo, price, transaction_date, date_received];
+
+    connection.query(query, values, (err, result) => {
+        if(err) {
+            return res.status(500).json({ error: "Failed to add data" });
+        } else {
+            res.json(result);
+        }
+    });
+});
 
 router.get("/api/update/transaction/:id", verifyUser, (req, res) => {
     const id = req.params.id;
